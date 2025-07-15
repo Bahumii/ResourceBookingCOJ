@@ -1,0 +1,56 @@
+﻿@model List<Booking>
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container">
+    <br>
+
+    <h1 style="text-align: center">Resource Booking System Dashboard</h1>
+
+    <br>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card text-white bg-dark mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Total Resources</h5>
+                    <p class="card-text display-6">@ViewBag.TotalResources</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card text-white" style="background-color: rgb(202, 135, 2);">
+                <div class="card-body">
+                    <h5 class="card-title">Bookings Today</h5>
+                    <p class="card-text display-6">@ViewBag.TotalBookingsToday</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h4>Upcoming Bookings</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Resource</th>
+                <th>Booked By</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Purpose</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var b in Model)
+            {
+                <tr>
+                    <td>@b.Resource?.Name</td>
+                    <td>@b.BookedBy</td>
+                    <td>@b.StartTime.ToString("g")</td>
+                    <td>@b.EndTime.ToString("g")</td>
+                    <td>@b.Purpose</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

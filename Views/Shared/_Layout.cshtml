@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Resource Booking System</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ResourceBookingCOJ.styles.css" asp-append-version="true" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --gold: rgb(202, 135, 2);
+            --dark-grey: #333;
+            --light-grey: #f8f9fa;
+            --black: #000;
+            --white: #fff;
+        }
+
+        body {
+            background-color: var(--light-grey);
+            color: var(--black);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar {
+            background-color: var(--black);
+            padding: 0.8rem 1rem;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--gold) !important;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-link {
+            color: var(--white) !important;
+            font-weight: 500;
+        }
+
+            .nav-link:hover {
+                color: var(--gold) !important;
+            }
+
+        .hero-banner {
+            background: linear-gradient(90deg, var(--black), var(--gold));
+            color: var(--white);
+            padding: 2rem 1rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+            .hero-banner h1 {
+                font-size: 2.5rem;
+                margin: 0;
+            }
+
+        .container {
+            padding-bottom: 40px;
+        }
+
+        .card {
+            border: 1px solid var(--gold);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .card-header {
+            background-color: var(--gold);
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background-color: var(--gold);
+            border-color: var(--gold);
+        }
+
+            .btn-primary:hover {
+                background-color: #b17600;
+                border-color: #b17600;
+            }
+
+        footer {
+            background-color: var(--black);
+            color: var(--white);
+            text-align: center;
+            padding: 15px;
+            font-size: 0.95rem;
+        }
+
+        .form-label {
+            font-weight: 500;
+        }
+
+        .table thead {
+            background-color: var(--gold);
+            color: white;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--gold);
+            border-left: 4px solid var(--gold);
+            padding-left: 12px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">🗂️ Resource Booking System</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/Home/Index">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Resource/Index">Resources</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Booking/Index">Bookings</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+        <main role="main" class="container">
+            @RenderBody()
+
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @TempData["Success"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @TempData["Error"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        </main>
+
+    <footer class="border-top footer text-muted">
+            &copy; @DateTime.Now.Year - Resource Booking System 
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
