@@ -13,86 +13,94 @@ namespace ResourceBookingCOJ.Controllers
             _context = context;
         }
 
-        // GET: ResourceController
+        // resources index page 
         public ActionResult Index()
         {
-            var resources = _context.Resources.ToList();
+            var viewModel = new ResourceViewModel
+            {
+                ResourceList = _context.Resources.ToList()
+            };
 
-            return View(resources);
+            return View(viewModel);
         }
 
-        // GET: ResourceController/Details/5
+        // resources details page by id
         public ActionResult Details(int id)
         {
-            return View();
+            var resource = _context.Resources.FirstOrDefault(r => r.Id == id);
+            if (resource == null)
+            {
+                return NotFound();
+            }
+            return View(resource);
         }
 
-        // GET: ResourceController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: ResourceController/Create
+        // resources create function
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(/*IFormCollection collection*/ Resource resource)
+        public IActionResult Create(Resource resource)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Resources.Add(resource);
+                    _context.SaveChanges();
+                    TempData["Success"] = "Resource added successfully.";
+                }
+                catch (Exception E)
+                {
+                    TempData["Error"] = $"Error adding resource: {E.Message}";
+                }
+            }
+            else
+            {
+                TempData["Error"] = "Invalid input. Please check input and try again.";
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        // edit function that will action delete or edit based on front end input from buttons
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Resource resource, string action)
         {
             try
             {
-                if (ModelState.IsValid)
+                //action variable to compare action from front end
+                if (action == "save")
                 {
-                    _context.Resources.Add(resource);
-                    _context.SaveChanges();     
+                    if (ModelState.IsValid)
+                    {
+                        //performs record edit if action passed to function = save
+                        _context.Resources.Update(resource);
+                        _context.SaveChanges();
+                        TempData["Success"] = "Resource updated successfully";
+                    }
+                    else
+                    {
+                        TempData["Error"] = "Resource update failed. Please check your input and try again.";
+                    }
                 }
-                return RedirectToAction("Index");
+                else if (action == "delete")
+                {
+                    //performs record delete if action passed = delete
+                    var r = _context.Resources.Find(resource.Id);
+                    if (r != null)
+                    {
+                        _context.Resources.Remove(r);
+                        _context.SaveChanges();
+                        TempData["Success"] = "Resource deleted successfully";
+                    }
+                }
             }
             catch (Exception E)
             {
-                return View();
+                TempData["Error"] = $"Delete failed: {E.Message}";
             }
-        }
 
-        // GET: ResourceController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: ResourceController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ResourceController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ResourceController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction("Index");
         }
     }
 }

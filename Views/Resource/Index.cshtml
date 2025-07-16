@@ -1,6 +1,23 @@
-﻿@model List<Resource>
+﻿@model ResourceBookingCOJ.Models.ResourceViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Resources";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 }
 
 <div class="container">
@@ -12,28 +29,45 @@
         </div>
         <div class="card-body">
             <form asp-action="Create" method="post">
-                <div class="row g-3 align-items-end">
-                    <div class="col-md-3">
+                <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+                <div class="row g-3">
+                    <div class="col-md-4">
                         <label for="Name" class="form-label">Resource Name</label>
                         <input name="Name" id="Name" class="form-control" placeholder="e.g. Boardroom A" required />
+                        <span asp-validation-for="Resource.Name" class="text-danger"></span>
                     </div>
-                    <div class="col-md-3">
+
+                    <div class="col-md-4">
                         <label for="Location" class="form-label">Location</label>
                         <input name="Location" id="Location" class="form-control" placeholder="e.g. 2nd Floor" />
+                        <span asp-validation-for="Resource.Location" class="text-danger"></span>
                     </div>
-                    <div class="col-md-2">
+
+                    <div class="col-md-4">
+                        <label for="Description" class="form-label">Description</label>
+                        <textarea name="Description" id="Description" class="form-control" rows="1"
+                                  placeholder="e.g. Large meeting room with projector"></textarea>
+                        <span asp-validation-for="Resource.Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-3">
                         <label for="Capacity" class="form-label">Capacity</label>
                         <input name="Capacity" id="Capacity" type="number" class="form-control" min="1" placeholder="e.g. 10" />
+                        <span asp-validation-for="Resource.Capacity" class="text-danger"></span>
                     </div>
-                    <div class="col-md-2">
+
+                    <div class="col-md-3">
                         <label for="IsAvailable" class="form-label">Availability</label>
                         <select name="IsAvailable" id="IsAvailable" class="form-select">
                             <option value="true">Available</option>
                             <option value="false">Unavailable</option>
                         </select>
+                        <span asp-validation-for="Resource.IsAvailable" class="text-danger"></span>
                     </div>
-                    <div class="col-md-2 text-end">
-                        <button class="btn btn-success w-100">Add Resource</button>
+
+                    <div class="col-md-6 d-flex align-items-end justify-content-end">
+                        <button class="btn btn-success px-4">Add Resource</button>
                     </div>
                 </div>
             </form>
@@ -45,13 +79,14 @@
             <tr>
                 <th>Name</th>
                 <th>Location</th>
+                <th>Description</th>
                 <th>Capacity</th>
                 <th>Available</th>
                 <th style="width: 160px;">Actions</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var r in Model)
+            @foreach (var r in Model.ResourceList)
             {
                 <tr>
                     <form asp-action="Edit" method="post">
@@ -61,6 +96,9 @@
                     </td>
                     <td>
                         <input name="Location" value="@r.Location" class="form-control form-control-sm" />
+                    </td>
+                    <td>
+                        <input name="Description" value="@r.Description" class="form-control form-control-sm" />
                     </td>
                     <td>
                         <input name="Capacity" value="@r.Capacity" type="number" class="form-control form-control-sm" />
@@ -74,6 +112,7 @@
                     <td class="d-flex gap-2">
                         <button type="submit" name="action" value="save" class="btn btn-sm btn-success">Save</button>
                         <button type="submit" name="action" value="delete" class="btn btn-sm btn-danger">Delete</button>
+                        <a asp-action="Details" asp-route-id="@r.Id" class="btn btn-sm btn-secondary">View</a>
                     </td>
                     </form>
                 </tr>

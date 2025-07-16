@@ -1,0 +1,31 @@
+﻿@model ResourceBookingCOJ.Models.Resource
+
+<div class="container">
+    <h2 class="section-title">Manage Resources</h2>
+
+    <div class="card mb-4">
+        <div class="card-header bg-light">
+            <h5 class="mb-0" style="color: black;">Resource Details</h5>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Name</dt>
+                <dd class="col-sm-9">@Model.Name</dd>
+
+                <dt class="col-sm-3">Description</dt>
+                <dd class="col-sm-9">@Model.Description</dd>
+
+                <dt class="col-sm-3">Location</dt>
+                <dd class="col-sm-9">@Model.Location</dd>
+
+                <dt class="col-sm-3">Capacity</dt>
+                <dd class="col-sm-9">@Model.Capacity</dd>
+
+                <dt class="col-sm-3">Available</dt>
+                <dd class="col-sm-9">@((Model.IsAvailable) ? "Yes" : "No")</dd>
+            </dl>
+
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+</div>
