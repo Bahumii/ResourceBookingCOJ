@@ -16,6 +16,7 @@ namespace ResourceBookingCOJ.Controllers
             _context = context;
         }
 
+        //
         public IActionResult Index()
         {
             var today = DateTime.Today;
@@ -29,8 +30,6 @@ namespace ResourceBookingCOJ.Controllers
             ViewBag.TotalBookingsToday = _context.Bookings.Count(b => b.StartTime.Date == today);
 
             return View(upcomingBookings);
-
-            //return View();
         }
 
         public IActionResult Privacy()

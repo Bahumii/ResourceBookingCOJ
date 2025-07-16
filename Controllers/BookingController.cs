@@ -17,7 +17,9 @@ namespace ResourceBookingCOJ.Controllers
         // GET: BookingController
         public ActionResult Index(string searchName, DateTime? searchDate)
         {
-            var bookings = _context.Bookings.Include(b => b.Resource).AsQueryable();
+            var bookings = _context.Bookings
+                .Include(b => b.Resource)
+                .AsQueryable();
 
             if (!string.IsNullOrEmpty(searchName))
                 bookings = bookings.Where(b => b.Resource.Name.Contains(searchName));
@@ -26,6 +28,9 @@ namespace ResourceBookingCOJ.Controllers
                 bookings = bookings.Where(b => b.StartTime.Date == searchDate.Value.Date);
 
             ViewBag.Resources = _context.Resources.ToList();
+            ViewBag.SearchName = searchName;
+            ViewBag.SearchDate = searchDate?.ToString("yyyy-MM-dd");
+
             return View(bookings.ToList());
         }
 

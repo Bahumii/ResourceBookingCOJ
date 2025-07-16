@@ -6,40 +6,55 @@
 <div class="container">
     <h2 class="section-title">Manage Resources</h2>
 
-    <form asp-action="Create" method="post" class="card card-body mb-3">
-        <div class="row">
-            <div class="col-md-3">
-                <input name="Name" class="form-control" placeholder="Name" required />
-            </div>
-            <div class="col-md-3">
-                <input name="Location" class="form-control" placeholder="Location" />
-            </div>
-            <div class="col-md-2">
-                <input name="Capacity" type="number" class="form-control" placeholder="Capacity" />
-            </div>
-            <div class="col-md-2">
-                <select name="IsAvailable" class="form-select">
-                    <option value="true">Available</option>
-                    <option value="false">Unavailable</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <button class="btn btn-primary w-100">Add Resource</button>
-            </div>
+    <div class="card mb-4">
+        <div class="card-header bg-light">
+            <h5 class="mb-0" style="color: black;">Add New Resource</h5>
         </div>
-    </form>
+        <div class="card-body">
+            <form asp-action="Create" method="post">
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-3">
+                        <label for="Name" class="form-label">Resource Name</label>
+                        <input name="Name" id="Name" class="form-control" placeholder="e.g. Boardroom A" required />
+                    </div>
+                    <div class="col-md-3">
+                        <label for="Location" class="form-label">Location</label>
+                        <input name="Location" id="Location" class="form-control" placeholder="e.g. 2nd Floor" />
+                    </div>
+                    <div class="col-md-2">
+                        <label for="Capacity" class="form-label">Capacity</label>
+                        <input name="Capacity" id="Capacity" type="number" class="form-control" min="1" placeholder="e.g. 10" />
+                    </div>
+                    <div class="col-md-2">
+                        <label for="IsAvailable" class="form-label">Availability</label>
+                        <select name="IsAvailable" id="IsAvailable" class="form-select">
+                            <option value="true">Available</option>
+                            <option value="false">Unavailable</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 text-end">
+                        <button class="btn btn-success w-100">Add Resource</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
-    <table class="table table-bordered table-striped">
-        <thead>
+    <table class="table table-bordered table-striped align-middle">
+        <thead class="table-dark">
             <tr>
-                <th>Name</th><th>Location</th><th>Capacity</th><th>Available</th><th>Actions</th>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Capacity</th>
+                <th>Available</th>
+                <th style="width: 160px;">Actions</th>
             </tr>
         </thead>
         <tbody>
-        @foreach (var r in Model)
-        {
+            @foreach (var r in Model)
+            {
                 <tr>
-                    <form asp-action="Edit" method="post" class="w-100">
+                    <form asp-action="Edit" method="post">
                     <td>
                         <input type="hidden" name="Id" value="@r.Id" />
                         <input name="Name" value="@r.Name" class="form-control form-control-sm" />
@@ -52,18 +67,17 @@
                     </td>
                     <td>
                         <select name="IsAvailable" class="form-select form-select-sm">
-                            <option value="true" selected="@r.IsAvailable">Yes</option>
-                            <option value="false" selected="!@r.IsAvailable">No</option>
+                            <option value="true" selected="@(r.IsAvailable ? "selected" : null)">Yes</option>
+                            <option value="false" selected="@(r.IsAvailable ? null : "selected")">No</option>
                         </select>
                     </td>
-                    <td class="d-flex gap-2 align-items-center">
+                    <td class="d-flex gap-2">
                         <button type="submit" name="action" value="save" class="btn btn-sm btn-success">Save</button>
                         <button type="submit" name="action" value="delete" class="btn btn-sm btn-danger">Delete</button>
                     </td>
                     </form>
                 </tr>
-
-        }
+            }
         </tbody>
     </table>
 </div>
