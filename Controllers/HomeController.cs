@@ -16,15 +16,25 @@ namespace ResourceBookingCOJ.Controllers
             _context = context;
         }
 
-        //
+        // 
         public IActionResult Index()
         {
             var today = DateTime.Today;
+
             var upcomingBookings = _context.Bookings
-                .Include(b => b.Resource)
-                .Where(b => b.StartTime >= today)
-                .OrderBy(b => b.StartTime)
-                .ToList();
+            .Where(b => b.StartTime >= today)
+            .OrderBy(b => b.StartTime)
+            .Select(b => new Booking
+            {
+                Id = b.Id,
+                StartTime = b.StartTime,
+                EndTime = b.EndTime,
+                BookedBy = b.BookedBy,
+                Purpose = b.Purpose,
+                ResourceId = b.ResourceId,
+                Resource = _context.Resources.FirstOrDefault(r => r.Id == b.ResourceId)
+            })
+            .ToList();
 
             ViewBag.TotalResources = _context.Resources.Count();
             ViewBag.TotalBookingsToday = _context.Bookings.Count(b => b.StartTime.Date == today);

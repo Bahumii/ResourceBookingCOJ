@@ -17,20 +17,20 @@ namespace ResourceBookingCOJ.Controllers
         // booking index page that will pass search name and date for booking filtering
         public ActionResult Index(string searchName, DateTime? searchDate)
         {
-            //
+            // dynamically retrieving all booking from the db related to resources 
             var bookings = _context.Bookings
                 .Include(b => b.Resource)
                 .AsQueryable();
 
-            //
+            // filter by resource name if search name provided
             if (!string.IsNullOrEmpty(searchName))
                 bookings = bookings.Where(b => b.Resource.Name.Contains(searchName));
 
-            //
+            // filter by date if search date provided
             if (searchDate.HasValue)
                 bookings = bookings.Where(b => b.StartTime.Date == searchDate.Value.Date);
 
-            //
+            // view model passed to view that will order bookings by most recent, count of all available resources and upcoming bookings
             var viewModel = new BookingViewModel
             {
                 Bookings = bookings.OrderByDescending(b => b.StartTime).ToList(),
@@ -46,8 +46,18 @@ namespace ResourceBookingCOJ.Controllers
         public ActionResult Details(int id)
         {
             var booking = _context.Bookings
-                .Include(b => b.Resource)
-                .FirstOrDefault(b => b.Id == id);
+                .Where(b => b.Id == id)
+                .Select(b => new Booking
+            {
+                Id = b.Id,
+                ResourceId = b.ResourceId,
+                StartTime = b.StartTime,
+                EndTime = b.EndTime,
+                BookedBy = b.BookedBy,
+                Purpose = b.Purpose,
+                Resource = _context.Resources.FirstOrDefault(r => r.Id == b.ResourceId)
+            })
+            .FirstOrDefault();
 
             if (booking == null)
             {
@@ -66,6 +76,22 @@ namespace ResourceBookingCOJ.Controllers
             {
                 try
                 {
+                    //initializing resource to check its availability
+                    var resource = _context.Resources.FirstOrDefault(r => r.Id == booking.ResourceId);
+
+                    if (resource == null)
+                    {
+                        TempData["Error"] = "Invalid resource selected.";
+                        return RedirectToAction("Index");
+                    }
+
+                    // if resource unavailable, then booking wont go through for conflict checking
+                    if (!resource.IsAvailable)
+                    {
+                        TempData["Warning"] = "The selected resource is currently unavailable.";
+                        return RedirectToAction("Index");
+                    }
+
                     // declared a boolean value that will compare db values and user input values and return true or false if any conflicts occur
                     bool isConflicted = _context.Bookings.Any(b =>
                     b.ResourceId == booking.ResourceId &&

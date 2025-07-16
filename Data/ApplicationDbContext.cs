@@ -13,7 +13,7 @@ namespace ResourceBookingCOJ.Models
         {
             modelBuilder.Entity<Booking>()
             .HasOne(b => b.Resource)
-            .WithMany(r => r.Bookings)
+            .WithMany()
             .HasForeignKey(b => b.ResourceId);
 
             modelBuilder.Entity<Booking>().ToTable("Bookings");

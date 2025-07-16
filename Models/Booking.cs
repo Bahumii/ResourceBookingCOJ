@@ -12,7 +12,7 @@ namespace ResourceBookingCOJ.Models
         [Required(ErrorMessage = "Start date and time is required.")]
         public DateTime StartTime { get; set; }
 
-        [Required(ErrorMessage = "End date and is required.")]
+        [Required(ErrorMessage = "End date and time is required.")]
         public DateTime EndTime { get; set; }
 
         [Required(ErrorMessage = "User booking is required.")]
