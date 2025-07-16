@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ResourceBookingCOJ")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+675925239e576e42e299dbbc3f7ee7d263e9c92f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c86ae78ec74ffdf4a153af4c4c69fc5272c3abb3")]
 [assembly: System.Reflection.AssemblyProductAttribute("ResourceBookingCOJ")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ResourceBookingCOJ")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

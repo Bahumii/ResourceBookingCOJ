@@ -68,12 +68,12 @@ namespace ResourceBookingCOJ.Controllers
         {
             try
             {
-                //action variable to compare action from front end
+                // action variable to compare action from front end
                 if (action == "save")
                 {
                     if (ModelState.IsValid)
                     {
-                        //performs record edit if action passed to function = save
+                        // performs record edit if action passed to function = save
                         _context.Resources.Update(resource);
                         _context.SaveChanges();
                         TempData["Success"] = "Resource updated successfully";
@@ -85,7 +85,7 @@ namespace ResourceBookingCOJ.Controllers
                 }
                 else if (action == "delete")
                 {
-                    //performs record delete if action passed = delete
+                    // performs record delete if action passed = delete
                     var r = _context.Resources.Find(resource.Id);
                     if (r != null)
                     {

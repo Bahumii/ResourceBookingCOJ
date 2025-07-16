@@ -110,7 +110,7 @@
                         </select>
                     </td>
                     <td class="d-flex gap-2">
-                        <button type="submit" name="action" value="save" class="btn btn-sm btn-success">Save</button>
+                        <button type="submit" name="action" value="save" class="btn btn-sm btn-success">Edit</button>
                         <button type="submit" name="action" value="delete" class="btn btn-sm btn-danger">Delete</button>
                         <a asp-action="Details" asp-route-id="@r.Id" class="btn btn-sm btn-secondary">View</a>
                     </td>
@@ -120,3 +120,7 @@
         </tbody>
     </table>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

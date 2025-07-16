@@ -6,19 +6,19 @@ namespace ResourceBookingCOJ.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Resource is required.")]
         public int ResourceId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Start date and time is required.")]
         public DateTime StartTime { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "End date and is required.")]
         public DateTime EndTime { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "User booking is required.")]
         public string? BookedBy { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Purpose is required.")]
         public string? Purpose { get; set; }
 
         public Resource? Resource { get; set; }
